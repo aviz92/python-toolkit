@@ -1,8 +1,4 @@
 # Python Base Toolkit
-
-A comprehensive Python Base Toolkit library providing common functionality across different domains. <br>
-This toolkit offers a collection of well-tested, production-ready utilities for file operations, network handling, date/time manipulation, random generation, decorators, and more.
-
 A powerful, production-ready Python toolkit designed to accelerate development by providing essential utilities and common functionality across multiple domains. <br>
 Built with type safety, comprehensive error handling, and modern Python practices, this toolkit streamlines everyday development tasks including file operations, network utilities, data manipulation, performance monitoring, resource management, and more.
 
@@ -10,9 +6,15 @@ Built with type safety, comprehensive error handling, and modern Python practice
 
 ## 🚀 Features
 
+### 📏 Constants Pack
+- **`units.py`**: Common constants including binary units (KiB, MiB, GiB), decimal units (KB, GB, TB), and time units (from picoseconds to years)
+
 ### 🎯 Decorators Pack
 - **`timer.py`**: Function execution timing decorator with logging and context manager support
 - **`telemetry.py`**: Function call telemetry and monitoring decorator for tracking execution data
+
+### 🏗️ Instances Pack
+- **`instance_manager.py`**: Resource management and automatic cleanup with context manager support
 
 ### 🛠️ Utils Pack
 - **`file_utils.py`**: Comprehensive file operations including I/O, compression, hashing, path manipulation, and file system utilities
@@ -23,12 +25,6 @@ Built with type safety, comprehensive error handling, and modern Python practice
 - **`pretty_print.py`**: JSON formatting utilities with configurable indentation and logging integration
 - **`shorten_url.py`**: URL shortening functionality using TinyURL integration
 - **`path_utils.py`**: Project path resolution and path manipulation utilities
-
-### 🏗️ Instances Pack
-- **`instance_manager.py`**: Resource management and automatic cleanup with context manager support
-
-### 📏 Constants Pack
-- **`units.py`**: Common constants including binary units (KiB, MiB, GiB), decimal units (KB, GB, TB), and time units (from picoseconds to years)
 
 ---
 
