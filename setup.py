@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 package_version = '0.0.1'
 
-package_name = 'python-base-utilities'
+package_name = 'python-base-toolkit'
 package_description = 'A Python package for managing pytest plugins.'
 
 package_name_ = package_name.replace('-', '_')
