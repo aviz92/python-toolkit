@@ -3,9 +3,9 @@ import time
 import functools
 from typing import Callable, Any
 
-from custom_python_logger import build_logger
+from custom_python_logger import build_logger, get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class Timer:

@@ -1,5 +1,4 @@
 import gzip
-import logging
 import os
 import hashlib
 import shutil
@@ -11,7 +10,9 @@ from typing import Optional, Union, BinaryIO, TextIO, cast, Any
 import tarfile
 import zipfile
 
-logger = logging.getLogger(__name__)
+from custom_python_logger import get_logger
+
+logger = get_logger(__name__)
 
 
 class FilePath:

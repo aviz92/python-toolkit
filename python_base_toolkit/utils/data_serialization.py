@@ -1,11 +1,12 @@
-import logging
 from dataclasses import is_dataclass
 from datetime import datetime, date, time
 from decimal import Decimal
 from enum import Enum
 from pathlib import Path
 
-logger = logging.getLogger(__name__)
+from custom_python_logger import get_logger
+
+logger = get_logger(__name__)
 
 
 def default_serialize(obj: object) -> object:

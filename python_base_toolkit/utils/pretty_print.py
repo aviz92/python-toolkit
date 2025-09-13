@@ -1,15 +1,18 @@
 import json
 import logging
+from typing import Any, Callable
 
-logger = logging.getLogger(__name__)
+from custom_python_logger import get_logger
+
+logger = get_logger(__name__)
 
 
 def print_in_format(
-    data: any,
+    data: Any,
     log_level: int = logging.INFO,
     indent: int = 4,
     sort_keys: bool = True,
-    default: callable = None
+    default: Callable = None
 ) -> None:
     formatted_data = json.dumps(data, indent=indent, sort_keys=sort_keys, default=default)
 
