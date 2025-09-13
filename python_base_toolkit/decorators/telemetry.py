@@ -5,7 +5,7 @@ import functools
 import datetime
 from typing import Callable, Any
 
-from custom_python_logger import get_logger
+from custom_python_logger import build_logger
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +25,8 @@ def report_telemetry(
         "end_time": end_time.isoformat(),
         "timestamp": time.time(),
     }
-    logger.info(f"Sending telemetry data with the following data: {json.dumps(data, indent=4, sort_keys=False, default=str)}")
+    logger.info(
+        f"Sending telemetry data with the following data: {json.dumps(data, indent=4, sort_keys=False, default=str)}")
 
 
 def report_func_telemetry(func: Callable[..., Any]) -> Callable[..., Any]:
@@ -45,7 +46,7 @@ def report_func_telemetry(func: Callable[..., Any]) -> Callable[..., Any]:
 
 @report_func_telemetry
 def main():
-    _logger = get_logger(
+    _logger = build_logger(
         project_name='Telemetry Decorator Project Test',
         log_level=logging.DEBUG,
         # extra={'user': 'test_user'}

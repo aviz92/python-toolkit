@@ -13,7 +13,6 @@ TB = 1000 ** 4  # 1 terabyte (TB) = 1000^4 bytes in decimal (SI)
 PB = 1000 ** 5  # 1 petabyte (PB) = 1000^5 bytes in decimal (SI)
 EB = 1000 ** 6  # 1 exabyte (EB) = 1000^6 bytes in decimal (SI)
 
-
 # Time Units
 Pico_Second = 0.000000000001
 Nano_Second = 0.000000001

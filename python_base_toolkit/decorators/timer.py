@@ -3,7 +3,7 @@ import time
 import functools
 from typing import Callable, Any
 
-from custom_python_logger import get_logger
+from custom_python_logger import build_logger
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +32,7 @@ def timer(func: Callable[..., Any]) -> Callable[..., Any]:
 
 @timer
 def main2():
-    _logger = get_logger(
+    _logger = build_logger(
         project_name='Timer Decorator Project Test',
         log_level=logging.DEBUG,
         # extra={'user': 'test_user'}
@@ -43,7 +43,7 @@ def main2():
 
 
 def main():
-    _logger = get_logger(
+    _logger = build_logger(
         project_name='Timer Decorator Project Test',
         log_level=logging.DEBUG,
         # extra={'user': 'test_user'}
