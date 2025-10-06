@@ -1,8 +1,10 @@
+import json
 from dataclasses import is_dataclass
 from datetime import datetime, date, time
 from decimal import Decimal
 from enum import Enum
 from pathlib import Path
+from typing import Any
 
 from custom_python_logger import get_logger
 
@@ -28,3 +30,9 @@ def default_serialize(obj: object) -> object:
         return str(obj)
     logger.error(f'Object is not serializable: {obj}')
     raise TypeError(f"Type {type(obj)} not serializable")
+
+
+def to_json_serializable(obj: Any) -> Any:
+    """Convert an object to a JSON-serializable structure."""
+    serialized_json = json.dumps(obj, default=default_serialize)
+    return json.loads(serialized_json)
