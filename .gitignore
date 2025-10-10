@@ -175,7 +175,3 @@ cython_debug/
 
 # Aditional directories and files to ignore
 logs/
-results_output/
-reports/
-.vscode
-.DS_Store
