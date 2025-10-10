@@ -1,5 +1,8 @@
+from custom_python_logger.logger import get_logger
+
 class InstanceManager:
     def __init__(self):
+        self.logger = get_logger(__class__.__name__)
         self._instances = []
 
     def add(self, instance):
@@ -13,9 +16,9 @@ class InstanceManager:
                     instance.close()
                 else:  # hasattr(instance, '__exit__'):
                     instance.__exit__(None, None, None)
-                print(f"Instance: {_instance_name} closed successfully.")
+                self.logger.info(f"Instance: {_instance_name} closed successfully.")
             except Exception as e:
-                print(f"Failed to close instance {instance}: {e}")
+                self.logger.info(f"Failed to close instance {instance}: {e}")
 
     def __enter__(self):
         return self
@@ -27,6 +30,8 @@ class InstanceManager:
 def main():
     class SomeInstance:
         def __init__(self, add_to_instance_manager: bool = False):
+            self.logger = get_logger(__class__.__name__)
+
             if add_to_instance_manager:
                 instance_manager.add(self)
 
@@ -35,14 +40,14 @@ def main():
             return self.__class__.__name__
 
         def __enter__(self):
-            print(f"Entering {self.__class_name__}")
+            self.logger.info(f"Entering {self.__class_name__}")
             return self
 
         def __exit__(self, exc_type, exc_value, exc_traceback):
-            print(f"Exiting {self.__class_name__}")
+            self.logger.info(f"Exiting {self.__class_name__}")
             # Handle any cleanup here
             if exc_type:
-                print(f"Exception: {exc_value}")
+                self.logger.info(f"Exception: {exc_value}")
             return True
 
     SomeInstance(add_to_instance_manager=True)

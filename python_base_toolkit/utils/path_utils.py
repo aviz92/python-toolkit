@@ -13,9 +13,11 @@ def get_project_path_by_name(project_name: str) -> str:
     )
 
 
-def get_project_path_by_file(marker: str = ".git") -> Path:
-    path = Path(__file__).resolve()
-    for parent in path.parents:
-        if (parent / marker).exists():
-            return parent
-    raise RuntimeError(f"Project root with marker '{marker}' not found.")
+def get_project_path_by_file(markers: set = None) -> Path:
+    markers = markers or {'.git', '.gitignore', 'setup.py', 'pyproject.toml', 'LICENSE', 'README.md'}
+    for marker in markers:
+        path = Path(__file__).resolve()
+        for parent in path.parents:
+            if (parent / marker).exists():
+                return parent
+    raise RuntimeError(f'Project root with markers "{markers}" not found.')

@@ -31,7 +31,7 @@ def report_telemetry(
 def report_func_telemetry(func: Callable[..., Any]) -> Callable[..., Any]:
     @wraps(func)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
-        # print(f"Calling function: {func.__name__}, with arguments: {args} and keyword arguments: {kwargs}")
+        # logger.info(f"Calling function: {func.__name__}, with arguments: {args} and keyword arguments: {kwargs}")
         # return func(*args, **kwargs)
         logger.info(f"calling {report_telemetry.__name__} to report the telemetry of {func.__name__}")
         start_time = datetime.datetime.now(datetime.UTC)
