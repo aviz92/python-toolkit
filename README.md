@@ -16,11 +16,14 @@ pip install python-toolkit
 - Constants Pack 
   - binary 
   - time
+
 - Decorators Pack
   - telemetry
   - timer
+
 - Instances Pack 
   - instance_manager
+
 - Utilities Pack
   - data_serialization
   - date_time
