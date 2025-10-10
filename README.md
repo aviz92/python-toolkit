@@ -4,35 +4,36 @@ Built with type safety, comprehensive error handling, and modern Python practice
 
 ---
 
-## 🚀 Features
-
-### 📏 Constants Pack
-- **`units.py`**: Common constants including binary units (KiB, MiB, GiB), decimal units (KB, GB, TB), and time units (from picoseconds to years)
-
-### 🎯 Decorators Pack
-- **`timer.py`**: Function execution timing decorator with logging and context manager support
-- **`telemetry.py`**: Function call telemetry and monitoring decorator for tracking execution data
-
-### 🏗️ Instances Pack
-- **`instance_manager.py`**: Resource management and automatic cleanup with context manager support
-
-### 🛠️ Utils Pack
-- **`file_utils.py`**: Comprehensive file operations including I/O, compression, hashing, path manipulation, and file system utilities
-- **`network.py`**: IP address handling, connection string normalization, HTTP URL construction, and network interface parsing
-- **`date_time.py`**: Timezone-aware datetime operations and timezone conversion utilities
-- **`random_utils.py`**: Random string generation, password creation, IP address generation, and random text creation
-- **`execute.py`**: Timed execution utilities with timeout support and progress bars
-- **`pretty_print.py`**: JSON formatting utilities with configurable indentation and logging integration
-- **`shorten_url.py`**: URL shortening functionality using TinyURL integration
-- **`path_utils.py`**: Project path resolution and path manipulation utilities
-
----
-
 ## 📦 Installation
 
 ```bash
 pip install python-toolkit
 ```
+
+---
+
+## 🚀 Features
+- Constants Pack 
+  - binary 
+  - time
+- Decorators Pack
+  - telemetry
+  - timer
+- Instances Pack 
+  - instance_manager
+- Utilities Pack
+  - data_serialization
+  - date_time
+  - execute
+  - file_utils
+  - logo
+  - network
+  - path_utils
+  - pretty_print
+  - pycache
+  - random_utils
+  - shorten_url
+  - venv_details
 
 ---
 
