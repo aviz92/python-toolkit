@@ -31,7 +31,7 @@ Built with type safety, comprehensive error handling, and modern Python practice
 ## 📦 Installation
 
 ```bash
-pip install python-base-toolkit
+pip install python-toolkit
 ```
 
 ---

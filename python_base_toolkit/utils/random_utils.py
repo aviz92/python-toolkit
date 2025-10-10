@@ -61,7 +61,7 @@ def generate_random_ip(ip_version: int) -> str:
     raise ValueError(f"Unsupported IP version: {ip_version}. Supported versions are 4 and 6.")
 
 
-def create_random_text(min_length: int = 64, max_length: int = 4096):
+def create_random_text(min_length: int = 64, max_length: int = 4096) -> str:
     """Generate a random string with a length between min_length and max_length characters."""
     length = random.randint(min_length, max_length)
     return ''.join(random.choice(ascii_letters) for _ in range(length))

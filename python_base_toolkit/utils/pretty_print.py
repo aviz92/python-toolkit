@@ -7,7 +7,7 @@ from custom_python_logger import get_logger
 logger = get_logger(__name__)
 
 
-def print_in_format(
+def log_in_format(
     data: Any,
     log_level: int = logging.INFO,
     indent: int = 4,
