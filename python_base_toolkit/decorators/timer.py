@@ -26,41 +26,4 @@ def timer(func: Callable[..., Any]) -> Callable[..., Any]:
     def wrapper(*args: Any, **kwargs: Any) -> Any:
         with Timer():
             return func(*args, **kwargs)
-
     return wrapper
-
-
-@timer
-def main2():
-    _logger = build_logger(
-        project_name='Timer Decorator Project Test',
-        log_level=logging.DEBUG,
-        # extra={'user': 'test_user'}
-    )
-
-    time.sleep(2)
-    _logger.info("Doing some work...")
-
-
-def main():
-    _logger = build_logger(
-        project_name='Timer Decorator Project Test',
-        log_level=logging.DEBUG,
-        # extra={'user': 'test_user'}
-    )
-
-    with Timer() as t:
-        x = 0 / 0
-        # Simulate some work
-        time.sleep(2)
-        _logger.info("Doing some work...")
-
-
-if __name__ == "__main__":
-    # logger.info("Running main...")
-    # main()
-
-    logger.info("Running main2...")
-    main2()
-
-    logger.info("Done.")

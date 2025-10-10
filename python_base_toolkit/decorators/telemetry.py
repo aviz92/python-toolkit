@@ -42,21 +42,3 @@ def report_func_telemetry(func: Callable[..., Any]) -> Callable[..., Any]:
         return result
 
     return wrapper
-
-
-@report_func_telemetry
-def main():
-    _logger = build_logger(
-        project_name='Telemetry Decorator Project Test',
-        log_level=logging.DEBUG,
-        # extra={'user': 'test_user'}
-    )
-    time.sleep(2)
-    _logger.info("Doing some work...")
-
-
-if __name__ == "__main__":
-    logger.info("Running main...")
-    main()
-
-    logger.info("Done.")
