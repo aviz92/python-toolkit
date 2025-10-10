@@ -1,11 +1,10 @@
 import json
-import logging
 import time
-import functools
+from functools import wraps
 import datetime
 from typing import Callable, Any
 
-from custom_python_logger import build_logger, get_logger
+from custom_python_logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -30,7 +29,7 @@ def report_telemetry(
 
 
 def report_func_telemetry(func: Callable[..., Any]) -> Callable[..., Any]:
-    @functools.wraps(func)
+    @wraps(func)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
         # print(f"Calling function: {func.__name__}, with arguments: {args} and keyword arguments: {kwargs}")
         # return func(*args, **kwargs)

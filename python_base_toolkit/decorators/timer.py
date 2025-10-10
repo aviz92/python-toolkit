@@ -1,9 +1,8 @@
-import logging
 import time
-import functools
+from functools import wraps
 from typing import Callable, Any
 
-from custom_python_logger import build_logger, get_logger
+from custom_python_logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -22,7 +21,7 @@ class Timer:
 
 
 def timer(func: Callable[..., Any]) -> Callable[..., Any]:
-    @functools.wraps(func)
+    @wraps(func)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
         with Timer():
             return func(*args, **kwargs)
