@@ -5,7 +5,7 @@ from typing import Optional
 
 from custom_python_logger import get_logger
 
-from python_base_toolkit.consts.platform import Platform
+from python_base_toolkit.consts.operating_system import Platform
 
 logger = get_logger(__name__)
 
@@ -142,6 +142,9 @@ def check_ping_from_windows(ip_address: str, number_of_ping: int = 4) -> bool:
 
 
 def check_ping_status(platform: Platform, ip_address: str, number_of_ping: int = 4) -> bool:
+    """
+    Check the ping status of an IP address based on the operating system platform.
+    """
     if platform == Platform.LINUX or platform == Platform.MACOS:
         return check_ping_from_linux(ip_address, number_of_ping)
     elif platform == Platform.WINDOWS:
