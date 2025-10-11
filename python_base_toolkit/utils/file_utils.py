@@ -77,7 +77,7 @@ class _FileCompression:
             if output_dir.endswith('.tar'):
                 output_dir = output_dir[:-4]
 
-        FilePath.ensure_dir(output_dir)
+        _FilePath.ensure_dir(output_dir)
 
         if archive_path.endswith(('.tar.gz', '.tgz')):
             with tarfile.open(archive_path, 'r:gz') as tar:
@@ -148,8 +148,9 @@ class _FileIO:
         with open(filename, 'w', encoding=encoding) as f:
             f.write(text)
 
-    def read_json(self, filename: str) -> dict[str, Any]:
-        with self.safe_open(filename, 'r') as f:
+    @staticmethod
+    def read_json(filename: str) -> dict[str, Any]:
+        with _FileIO.safe_open(filename, 'r') as f:
             return json.load(f)
 
     @staticmethod
@@ -257,10 +258,9 @@ class _FileSystem:
 
 
 class FileUtils:
-    def __init__(self) -> None:
-        self.file_compression = _FileCompression()
-        self.file_hash = _FileHash()
-        self.file_io = _FileIO()
-        self.file_manipulation = _FileManipulation()
-        self.file_path = _FilePath()
-        self.file_system = _FileSystem()
+    file_compression = _FileCompression
+    file_hash = _FileHash
+    file_io = _FileIO
+    file_manipulation = _FileManipulation
+    file_path = _FilePath
+    file_system = _FileSystem
