@@ -1,6 +1,21 @@
 import ipaddress
+import os
 import re
 from typing import Optional
+
+from custom_python_logger import get_logger
+
+from python_base_toolkit.consts.platform import Platform
+
+logger = get_logger(__name__)
+
+
+def is_ip_address(ip: str) -> bool:
+    try:
+        ipaddress.ip_address(ip)
+        return True
+    except ValueError:
+        return False
 
 
 def get_ip_version(ip: str) -> Optional[int]:
@@ -100,3 +115,36 @@ def parse_ifconfig_to_json(ifconfig_output: str) -> dict:
             interfaces[current_interface]['ipv6_prefixlen'] = match_subnet_mask.group(1)
 
     return interfaces
+
+
+def check_ping_from_linux(ip_address: str, number_of_ping: int = 4) -> bool:
+    try:
+        response = os.system(f"ping -c {number_of_ping} {ip_address}")
+        if response == 0:
+            return True
+        else:
+            return False
+    except Exception as e:
+        logger.exception(f'ping to {ip_address} failed: {e}')
+        return False
+
+
+def check_ping_from_windows(ip_address: str, number_of_ping: int = 4) -> bool:
+    try:
+        response = os.system(f"ping -n {number_of_ping} {ip_address}")
+        if response == 0:
+            return True
+        else:
+            return False
+    except Exception as e:
+        logger.exception(f'ping to {ip_address} failed: {e}')
+        return False
+
+
+def check_ping_status(platform: Platform, ip_address: str, number_of_ping: int = 4) -> bool:
+    if platform == Platform.LINUX or platform == Platform.MACOS:
+        return check_ping_from_linux(ip_address, number_of_ping)
+    elif platform == Platform.WINDOWS:
+        return check_ping_from_windows(ip_address, number_of_ping)
+    else:
+        raise ValueError(f'Unsupported platform: {platform}')
