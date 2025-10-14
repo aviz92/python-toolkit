@@ -1,15 +1,15 @@
-import gzip
-import os
-import hashlib
-import shutil
-import json
 import csv
-import yaml
+import gzip
+import hashlib
+import json
+import os
 import re
-from typing import Optional, Union, BinaryIO, TextIO, cast, Any
+import shutil
 import tarfile
 import zipfile
+from typing import Any, BinaryIO, TextIO, cast
 
+import yaml
 from custom_python_logger import get_logger
 
 logger = get_logger(__name__)
@@ -17,56 +17,56 @@ logger = get_logger(__name__)
 
 class _FileCompression:
     @staticmethod
-    def gzip_file(input_path: str, output_path: Optional[str] = None) -> str:
+    def gzip_file(input_path: str, output_path: str | None = None) -> str:
         if not os.path.isfile(input_path):
             raise FileNotFoundError(f"Input file does not exist: {input_path}")
 
         if output_path is None:
-            output_path = input_path + '.gz'
+            output_path = input_path + ".gz"
 
         try:
-            with open(input_path, 'rb') as f_in:
-                with gzip.open(output_path, 'wb') as f_out:
+            with open(input_path, "rb") as f_in:
+                with gzip.open(output_path, "wb") as f_out:
                     f_out.write(f_in.read())
             return output_path
         except Exception as e:
-            raise IOError(f"Error compressing file: {e}")
+            raise OSError(f"Error compressing file: {e}") from e
 
     @staticmethod
-    def ungzip_file(gz_path: str, output_path: Optional[str] = None) -> str:
+    def ungzip_file(gz_path: str, output_path: str | None = None) -> str:
         if not os.path.isfile(gz_path):
             raise FileNotFoundError(f"Gzipped file does not exist: {gz_path}")
 
         if output_path is None:
-            if gz_path.endswith('.gz'):
+            if gz_path.endswith(".gz"):
                 output_path = gz_path[:-3]  # Remove .gz extension
             else:
-                output_path = gz_path + '_decompressed'
+                output_path = gz_path + "_decompressed"
 
         try:
-            with gzip.open(gz_path, 'rb') as f_in:
-                with open(output_path, 'wb') as f_out:
+            with gzip.open(gz_path, "rb") as f_in:
+                with open(output_path, "wb") as f_out:
                     f_out.write(f_in.read())
             return output_path
         except Exception as e:
-            raise IOError(f"Error decompressing file: {e}")
+            raise OSError(f"Error decompressing file: {e}") from e
 
     @staticmethod
-    def compress_directory(directory: str, output_path: Optional[str] = None) -> str:
+    def compress_directory(directory: str, output_path: str | None = None) -> str:
         """Compress directory to tarball."""
         if not os.path.isdir(directory):
             raise FileNotFoundError(f"Directory does not exist: {directory}")
 
         if output_path is None:
-            output_path = directory.rstrip(os.sep) + '.tar.gz'
+            output_path = directory.rstrip(os.sep) + ".tar.gz"
 
-        with tarfile.open(output_path, 'w:gz') as tar:
+        with tarfile.open(output_path, "w:gz") as tar:
             tar.add(directory, arcname=os.path.basename(directory))
 
         return output_path
 
     @staticmethod
-    def extract_archive(archive_path: str, output_dir: Optional[str] = None) -> str:
+    def extract_archive(archive_path: str, output_dir: str | None = None) -> str:
         """Extract archive file."""
         if not os.path.isfile(archive_path):
             raise FileNotFoundError(f"Archive does not exist: {archive_path}")
@@ -74,22 +74,22 @@ class _FileCompression:
         if output_dir is None:
             output_dir = os.path.splitext(archive_path)[0]
             # Handle double extensions like .tar.gz
-            if output_dir.endswith('.tar'):
+            if output_dir.endswith(".tar"):
                 output_dir = output_dir[:-4]
 
         _FilePath.ensure_dir(output_dir)
 
-        if archive_path.endswith(('.tar.gz', '.tgz')):
-            with tarfile.open(archive_path, 'r:gz') as tar:
+        if archive_path.endswith((".tar.gz", ".tgz")):
+            with tarfile.open(archive_path, "r:gz") as tar:
                 tar.extractall(path=output_dir)
-        elif archive_path.endswith('.tar.bz2'):
-            with tarfile.open(archive_path, 'r:bz2') as tar:
+        elif archive_path.endswith(".tar.bz2"):
+            with tarfile.open(archive_path, "r:bz2") as tar:
                 tar.extractall(path=output_dir)
-        elif archive_path.endswith('.tar'):
-            with tarfile.open(archive_path, 'r') as tar:
+        elif archive_path.endswith(".tar"):
+            with tarfile.open(archive_path, "r") as tar:
                 tar.extractall(path=output_dir)
-        elif archive_path.endswith('.zip'):
-            with zipfile.ZipFile(archive_path, 'r') as zip_ref:
+        elif archive_path.endswith(".zip"):
+            with zipfile.ZipFile(archive_path, "r") as zip_ref:
                 zip_ref.extractall(output_dir)
         else:
             raise ValueError(f"Unsupported archive format: {archive_path}")
@@ -128,69 +128,66 @@ class _FileHash:
 
 class _FileIO:
     @staticmethod
-    def safe_open(
-        filename: str,
-        mode: str = 'r',
-        encoding: Optional[str] = None,
-        **kwargs
-    ) -> Union[TextIO, BinaryIO]:
-        if 'b' in mode:
+    def safe_open(filename: str, mode: str = "r", encoding: str | None = None, **kwargs: Any) -> TextIO | BinaryIO:
+        if "b" in mode:
             return cast(BinaryIO, open(filename, mode, **kwargs))
-        return cast(TextIO, open(filename, mode, encoding=encoding or 'utf-8', **kwargs))
+        return cast(TextIO, open(filename, mode, encoding=encoding or "utf-8", **kwargs))
 
     @staticmethod
-    def read_text(filename: str, encoding: str = 'utf-8') -> str:
-        with open(filename, 'r', encoding=encoding) as f:
+    def read_text(filename: str, encoding: str = "utf-8") -> str:
+        with open(filename, encoding=encoding) as f:
             return f.read()
 
     @staticmethod
-    def write_text(text: str, filename: str, encoding: str = 'utf-8') -> None:
-        with open(filename, 'w', encoding=encoding) as f:
+    def write_text(text: str, filename: str, encoding: str = "utf-8") -> None:
+        with open(filename, "w", encoding=encoding) as f:
             f.write(text)
 
     @staticmethod
     def read_json(filename: str) -> dict[str, Any]:
-        with _FileIO.safe_open(filename, 'r') as f:
+        with _FileIO.safe_open(filename, "r") as f:
             return json.load(f)
 
     @staticmethod
     def write_json(data: dict[str, Any], filename: str, indent: int = 2) -> None:
-        with open(filename, 'w', encoding='utf-8') as f:
+        with open(filename, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=indent, ensure_ascii=False)
 
     @staticmethod
     def read_yaml(filename: str) -> Any:
-        with open(filename, 'r', encoding='utf-8') as f:
+        with open(filename, encoding="utf-8") as f:
             return yaml.safe_load(f)
 
     @staticmethod
-    def write_yaml(data: Any, filename: str, **kwargs) -> None:
-        with open(filename, 'w', encoding='utf-8') as f:
+    def write_yaml(data: Any, filename: str, **kwargs: Any) -> None:
+        with open(filename, "w", encoding="utf-8") as f:
             yaml.safe_dump(data, f, allow_unicode=True, **kwargs)
 
-    def read_csv(self, filename: str, **kwargs) -> list[dict[str, Any]]:
-        with self.safe_open(filename, 'r', newline='') as f:
+    def read_csv(self, filename: str, **kwargs: Any) -> list[dict[str, Any]]:
+        with self.safe_open(filename, "r", newline="") as f:
             reader = csv.DictReader(f, **kwargs)
             return list(reader)
 
     @staticmethod
-    def write_csv(data: list[dict[str, Any]], filename: str, fieldnames: Optional[list[str]] = None, **kwargs) -> None:
+    def write_csv(
+        data: list[dict[str, Any]], filename: str, fieldnames: list[str] | None = None, **kwargs: Any
+    ) -> None:
         if not data:
             return
 
         if fieldnames is None:
             fieldnames = list(data[0].keys())
 
-        with open(filename, 'w', newline='', encoding='utf-8') as f:
+        with open(filename, "w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames, **kwargs)
             writer.writeheader()
             writer.writerows(data)
 
     @staticmethod
     def is_binary_file(path: str, chunk_size: int = 1024) -> bool:
-        with open(path, 'rb') as f:
+        with open(path, "rb") as f:
             chunk = f.read(chunk_size)
-        return b'\0' in chunk
+        return b"\0" in chunk
 
     @staticmethod
     def is_file_empty(path: str) -> bool:
@@ -200,7 +197,7 @@ class _FileIO:
 class _FileManipulation:
     @staticmethod
     def remove_emojis(text: str) -> str:
-        return re.sub(r'[\U00010000-\U0010ffff]', '', text).strip()
+        return re.sub(r"[\U00010000-\U0010ffff]", "", text).strip()
 
 
 class _FilePath:
@@ -229,7 +226,7 @@ class _FilePath:
         return os.path.relpath(path, base_path)
 
     @staticmethod
-    def list_files(directory: str, extension: Optional[str] = None, recursive: bool = False) -> list[str]:
+    def list_files(directory: str, extension: str | None = None, recursive: bool = False) -> list[str]:
         result = []
         for root, _, files in os.walk(directory) if recursive else [(directory, [], os.listdir(directory))]:
             for file in files:

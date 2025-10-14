@@ -1,5 +1,7 @@
 setuptools
 wheel
+python-dotenv
+pre-commit
 colorlog
 pathlib
 requests

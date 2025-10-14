@@ -10,7 +10,7 @@ def generate_random_string(length: int = 8, charset: str = ascii_letters + digit
     :param charset: The set of characters to use for generating the string
     Return - A random string based on the specified character set
     """
-    return ''.join(choice(charset) for _ in range(length))
+    return "".join(choice(charset) for _ in range(length))
 
 
 def generate_random_password(length: int = 8) -> str:
@@ -25,14 +25,14 @@ def generate_random_password(length: int = 8) -> str:
     password += choice(ascii_lowercase)
 
     # Fill the remaining characters with a mix of all types
-    remaining_chars = ''.join(
+    remaining_chars = "".join(
         choice(ascii_letters + digits + special_characters) for _ in range(length - len(password))
     )
 
     password += remaining_chars
 
     # Shuffle the password to make it more random but keep the first character as a letter
-    return password[0] + ''.join(random.sample(password[1:], len(password) - 1))
+    return password[0] + "".join(random.sample(password[1:], len(password) - 1))
 
 
 def generate_random_ipv4() -> str:
@@ -43,9 +43,9 @@ def generate_random_ipv4() -> str:
 
 
 def generate_random_ipv6() -> str:
-    first_group = f'{random.randint(0x2000, 0x3fff):04x}'
-    other_groups = [f'{random.randint(0, 0xffff):04x}' for _ in range(7)]
-    return ':'.join([first_group] + other_groups)
+    first_group = f"{random.randint(0x2000, 0x3fff):04x}"
+    other_groups = [f"{random.randint(0, 0xffff):04x}" for _ in range(7)]
+    return ":".join([first_group] + other_groups)
 
 
 def generate_random_ip(ip_version: int) -> str:
@@ -64,4 +64,4 @@ def generate_random_ip(ip_version: int) -> str:
 def create_random_text(min_length: int = 64, max_length: int = 4096) -> str:
     """Generate a random string with a length between min_length and max_length characters."""
     length = random.randint(min_length, max_length)
-    return ''.join(random.choice(ascii_letters) for _ in range(length))
+    return "".join(random.choice(ascii_letters) for _ in range(length))

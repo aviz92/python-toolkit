@@ -1,6 +1,6 @@
 import json
 from dataclasses import is_dataclass
-from datetime import datetime, date, time
+from datetime import date, datetime, time
 from decimal import Decimal
 from enum import Enum
 from pathlib import Path
@@ -23,7 +23,7 @@ def default_serialize(obj: object) -> object:
         return list(obj)
     if isinstance(obj, tuple):
         return list(obj)
-    if isinstance(obj, (datetime, date, time)):
+    if isinstance(obj, datetime | date | time):
         return obj.isoformat()
     if isinstance(obj, Decimal):
         return float(obj)
@@ -31,7 +31,7 @@ def default_serialize(obj: object) -> object:
         return str(obj)
     if obj is pd.NA:
         return None
-    logger.error(f'Object is not serializable: {obj}')
+    logger.error(f"Object is not serializable: {obj}")
     raise TypeError(f"Type {type(obj)} not serializable")
 
 

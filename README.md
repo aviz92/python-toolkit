@@ -13,15 +13,15 @@ pip install python-toolkit
 ---
 
 ## 🚀 Features
-- Constants Pack 
-  - binary 
+- Constants Pack
+  - binary
   - time
 
 - Decorators Pack
   - telemetry
   - timer
 
-- Instances Pack 
+- Instances Pack
   - instance_manager
 
 - Utilities Pack

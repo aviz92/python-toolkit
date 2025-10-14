@@ -16,7 +16,7 @@ def _timed_execution(
     pbar = tqdm(total=timeout, desc=pb_description, unit="s", ncols=100)
     start_time = time()
 
-    while time() - start_time < timeout:
+    while time() - start_time < timeout:  # pylint: disable=W0149
         res = func()
         if (expect_true and res) or (not expect_true and not res):
             pbar.close()

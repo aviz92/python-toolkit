@@ -1,8 +1,9 @@
+import datetime
 import json
 import time
+from collections.abc import Callable
 from functools import wraps
-import datetime
-from typing import Callable, Any
+from typing import Any
 
 from custom_python_logger import get_logger
 
@@ -10,11 +11,7 @@ logger = get_logger(__name__)
 
 
 def report_telemetry(
-    func: Callable[..., Any],
-    start_time: datetime.datetime,
-    end_time: datetime.datetime,
-    *args: Any,
-    **kwargs: Any
+    func: Callable[..., Any], start_time: datetime.datetime, end_time: datetime.datetime, *args: Any, **kwargs: Any
 ) -> None:
     data = {
         "function_name": func.__name__,
@@ -25,7 +22,8 @@ def report_telemetry(
         "timestamp": time.time(),
     }
     logger.info(
-        f"Sending telemetry data with the following data: {json.dumps(data, indent=4, sort_keys=False, default=str)}")
+        f"Sending telemetry data with the following data: {json.dumps(data, indent=4, sort_keys=False, default=str)}"
+    )
 
 
 def report_func_telemetry(func: Callable[..., Any]) -> Callable[..., Any]:
@@ -37,7 +35,7 @@ def report_func_telemetry(func: Callable[..., Any]) -> Callable[..., Any]:
         start_time = datetime.datetime.now(datetime.UTC)
         result = func(*args, **kwargs)
         end_time = datetime.datetime.now(datetime.UTC)
-        report_telemetry(func=func, start_time=start_time, end_time=end_time, *args, **kwargs)
+        report_telemetry(*args, func=func, start_time=start_time, end_time=end_time, **kwargs)
         return result
 
     return wrapper

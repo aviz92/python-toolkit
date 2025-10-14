@@ -1,7 +1,7 @@
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-utc_timezone = ZoneInfo('UTC')
+utc_timezone = ZoneInfo("UTC")
 
 
 def datetime_now_with_timezone(timezone: ZoneInfo = utc_timezone) -> datetime:
@@ -9,6 +9,6 @@ def datetime_now_with_timezone(timezone: ZoneInfo = utc_timezone) -> datetime:
         raise TypeError(f"Expected pytz timezone, got {type(timezone).__name__}")
 
     now_utc = datetime.now(timezone)
-    if timezone.key == 'UTC':
+    if timezone.key == "UTC":
         return now_utc
     return now_utc.astimezone(timezone)
